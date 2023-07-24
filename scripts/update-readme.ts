@@ -1,10 +1,12 @@
 import { stripColor } from "@devdeps";
+import { updateText } from "./utils.ts";
 
 async function update() {
   const filePath = new URL(import.meta.url).pathname;
   const dirPath = filePath.split("/").slice(0, -1).join("/");
   const readmePath = `${dirPath}/../README.md`;
   const cliPath = `${dirPath}/../cli.ts`;
+  const licensePath = `${dirPath}/../LICENSE`;
 
   const command = new Deno.Command(Deno.execPath(), {
     args: [
@@ -15,12 +17,7 @@ async function update() {
   });
 
   const readme = await Deno.readTextFile(readmePath);
-
-  const startSnippetPos = readme.indexOf("<!-- START SNIPPET -->");
-  const endSnippetPos = readme.indexOf("<!-- END SNIPPET -->");
-
-  const startSnippet = readme.slice(0, startSnippetPos + 23);
-  const endSnippet = readme.slice(endSnippetPos);
+  const license = await Deno.readTextFile(licensePath);
 
   const { code, stdout, stderr } = await command.output();
 
@@ -32,8 +29,16 @@ async function update() {
     Deno.exit(1);
   }
 
-  const updatedReadme =
-    `${startSnippet}\n\`\`\`bash\n${output}\`\`\`\n${endSnippet}`;
+  let updatedReadme = updateText(
+    "SNIPPET",
+    readme,
+    `\`\`\`bash\n${output}\`\`\``,
+  );
+  updatedReadme = updateText(
+    "LICENSE",
+    updatedReadme,
+    `\`\`\`\n${license}\n\`\`\``,
+  );
 
   await Deno.writeTextFile(readmePath, updatedReadme);
 }

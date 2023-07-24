@@ -3,6 +3,12 @@ Spidertrap
 
 Spidertrap is a simple web server that can be used to trap web crawlers. It is written in Typescript and runs on Deno. You can use it standalone or as a library.
 
+## Features
+
+- Runs a webserver that responds to all requests with a list of random links. It mimics an Apache directory index.
+- Adds a `robots.txt` file that baits certain crawlers to crawl random links
+- Optionally add a delay to the response which can be accumulated based on the path segments (the further down the path, the longer the delay)
+
 ## Installation
 
 ### Standalone
@@ -49,6 +55,40 @@ Options:
 ```
 <!-- END SNIPPET -->
 
+## Development
+
+### Upcoming features
+
+- Add a `sitemap.xml` file that baits certain crawlers to crawl random links
+
 ## License
 
-Spidertrap is licensed under the MIT license. See [LICENSE](LICENSE) for more information.
+Spidertrap is licensed under the [MIT license](LICENSE).
+
+<!-- START LICENSE -->
+
+```
+The MIT License (MIT)
+
+Copyright © J.W. Lagendijk 2023-2023. All Rights Reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+```
+<!-- END LICENSE -->
