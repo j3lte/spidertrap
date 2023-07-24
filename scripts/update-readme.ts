@@ -1,5 +1,7 @@
 import { stripColor } from "@devdeps";
+
 import { updateText } from "./utils.ts";
+import { VERSION } from "../cli.ts";
 
 async function update() {
   const filePath = new URL(import.meta.url).pathname;
@@ -38,6 +40,10 @@ async function update() {
     "LICENSE",
     updatedReadme,
     `\`\`\`\n${license}\n\`\`\``,
+  );
+  updatedReadme = updatedReadme.replace(
+    /deno\.land\/x\/spidertrap(.*)\//g,
+    `deno.land/x/spidertrap@${VERSION}/`,
   );
 
   await Deno.writeTextFile(readmePath, updatedReadme);
