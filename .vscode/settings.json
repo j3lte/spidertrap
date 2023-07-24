@@ -11,12 +11,6 @@
     "editor.tabSize": 2
   },
 
-  "[html]": {
-    "editor.defaultFormatter": "vscode.html-language-features",
-    "editor.formatOnSave": false,
-    "editor.tabSize": 2
-  },
-
   "[markdown]": {
     "editor.defaultFormatter": "vscode.markdown-language-features",
     "editor.formatOnSave": false,
