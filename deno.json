@@ -1,0 +1,18 @@
+{
+  "imports": {
+    "@deps": "./deps.ts",
+    "@devdeps": "./dev_deps.ts"
+  },
+  "tasks": {
+    "dev": "deno run --allow-net --allow-read --watch ./src/serve.ts",
+    "update-version": "deno run --allow-read --allow-write ./scripts/update-version.ts",
+    "update-readme": "deno run --allow-read --allow-write --allow-run ./scripts/update-readme.ts",
+    "check:types": "deno check mod.ts cli.ts",
+    "check": "deno task check:types",
+    "ok": "deno fmt --check && deno lint && deno task check",
+    "update": "deno run -A https://deno.land/x/udd/main.ts deps.ts dev_deps.ts"
+  },
+  "exclude": [
+    "cov/"
+  ]
+}
