@@ -48,10 +48,11 @@ export const respondImage = async (path: string): Promise<Response> => {
   const dirPath = filePath.split("/").slice(0, -1).join("/");
   const imgPathFull = `${dirPath}/icons/${imgPath}`;
   const img = await Deno.readFile(imgPathFull);
+  const contentType = imgPath.endsWith(".gif") ? "image/gif" : "image/x-icon";
   return new Response(img, {
     status: 200,
     headers: {
-      "Content-Type": "image/gif",
+      "Content-Type": contentType,
       "Cache-Control": "public, max-age=31536000",
     },
   });

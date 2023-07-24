@@ -13,12 +13,17 @@ const serveHandler =
     const path = new URL(request.url).pathname;
     const userAgent = request.headers.get("user-agent") ?? "";
 
-    if (path === "/favicon.ico") {
-      return new Response(null, { status: 404 });
-    }
+    // if (path === "/favicon.ico") {
+    //   return new Response(null, { status: 404 });
+    // }
 
     if (
-      ["/icons/blank.gif", "/icons/folder.gif", "/icons/generic.gif"].includes(
+      [
+        "/favicon.ico",
+        "/icons/blank.gif",
+        "/icons/folder.gif",
+        "/icons/generic.gif",
+      ].includes(
         path,
       )
     ) {
