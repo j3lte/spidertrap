@@ -1,4 +1,4 @@
-import { serve } from "@deps";
+import { serve } from "../deps.ts";
 import {
   randomDate,
   randomPathName,

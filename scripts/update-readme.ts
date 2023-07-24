@@ -1,4 +1,4 @@
-import { stripColor } from "@devdeps";
+import { stripColor } from "../dev_deps.ts";
 
 import { updateText } from "./utils.ts";
 import { VERSION } from "../cli.ts";
