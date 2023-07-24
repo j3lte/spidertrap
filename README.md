@@ -16,7 +16,7 @@ Spidertrap is a simple web server that can be used to trap web crawlers. It is w
 You can install Spidertrap as a standalone application using the following command:
 
 ```bash
-deno install --allow-net --allow-read https://xxxxxx/spidertrap.ts
+deno install --allow-net --allow-read -n spidertrap https://deno.land/x/spidertrap/cli.ts
 ```
 
 ### Library
@@ -24,7 +24,7 @@ deno install --allow-net --allow-read https://xxxxxx/spidertrap.ts
 You can also use Spidertrap as a library. To do so, add the following to your `deps.ts` file:
 
 ```typescript
-export { server } from "https://xxxxxx/spidertrap.ts";
+export { server } from "https://deno.land/x/spidertrap/mod.ts";
 ```
 
 ## Usage
