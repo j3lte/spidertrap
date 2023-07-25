@@ -1,12 +1,12 @@
 {
   "tasks": {
     "dev": "deno run --allow-net --allow-read --allow-write --watch ./src/serve.ts",
-    "check-license": "deno run --allow-read --allow-write ./scripts/check-license.ts",
-    "update-deps": "deno run -A https://deno.land/x/udd/main.ts deps.ts dev_deps.ts",
-    "update-version": "deno run --allow-read --allow-write ./scripts/update-version.ts",
-    "update-readme": "deno run --allow-read --allow-write --allow-run ./scripts/update-readme.ts",
+    "update:deps": "deno run -A https://deno.land/x/udd/main.ts deps.ts dev_deps.ts",
+    "update:version": "deno run --allow-read --allow-write ./scripts/update-version.ts",
+    "update:readme": "deno run --allow-read --allow-write --allow-run ./scripts/update-readme.ts",
+    "check:license": "deno run -A ./scripts/check-license.ts --check",
     "check:types": "deno check mod.ts cli.ts",
-    "check": "deno task check:types",
+    "check": "deno task check:license && deno task check:types",
     "ok": "deno fmt --check --ignore=README.md && deno lint && deno task check"
   },
   "exclude": [
