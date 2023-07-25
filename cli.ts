@@ -1,7 +1,7 @@
 import { Command } from "./deps.ts";
 import { server } from "./mod.ts";
 
-export const VERSION = "0.2.0";
+export const VERSION = "0.2.1";
 
 if (import.meta.main) {
   await new Command()
