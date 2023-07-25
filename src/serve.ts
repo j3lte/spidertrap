@@ -1,5 +1,8 @@
 import { serve } from "../deps.ts";
+import type { ConnInfo, Handler } from "../deps.ts";
 import {
+  createLogger,
+  dateLogFormat,
   randomDate,
   randomPathName,
   respondImage,
@@ -7,15 +10,27 @@ import {
   wait,
 } from "./utils.ts";
 
-const serveHandler =
-  ({ numberOfLinks, delay, accumulateDelay, maxDelay }: ServerOptions) =>
-  async (request: Request): Promise<Response> => {
+const createServeHandler = async (
+  { numberOfLinks, delay, accumulateDelay, maxDelay, logDir }: ServerOptions,
+): Promise<Handler> => {
+  const logger = await createLogger(logDir);
+
+  return async (
+    request: Request,
+    connInfo: ConnInfo,
+  ): Promise<Response> => {
+    let connection = "[UNKNOWN]";
+    if (connInfo.remoteAddr.transport === "tcp") {
+      connection =
+        `${connInfo.remoteAddr.hostname}:${connInfo.remoteAddr.port}`;
+    }
+
     const path = new URL(request.url).pathname;
     const userAgent = request.headers.get("user-agent") ?? "";
 
-    // if (path === "/favicon.ico") {
-    //   return new Response(null, { status: 404 });
-    // }
+    const dateLog = dateLogFormat();
+    const requestString =
+      `${connection} - - [${dateLog}] "${request.method} ${path} HTTP/1.1"`;
 
     if (
       [
@@ -27,24 +42,28 @@ const serveHandler =
         path,
       )
     ) {
+      logger.info(`${requestString} 200 ${userAgent}`);
       return await respondImage(path);
     }
 
     if (path.startsWith("/icons/")) {
+      logger.info(`${requestString} 404 ${userAgent}`);
       return new Response(null, { status: 404 });
     }
 
-    console.log("Incoming request", { path, userAgent });
-
     if (path === "/robots.txt") {
+      logger.info(`${requestString} 200 ${userAgent}`);
       return respondRobots(numberOfLinks ?? 5);
     }
 
     if (!path.endsWith("/")) {
+      logger.info(`${requestString} 404 ${userAgent}`);
       return new Response(null, {
         status: 404,
       });
     }
+
+    logger.info(`${requestString} 200 ${userAgent}`);
 
     const pathSegmentsLength =
       path.split("/").filter((s) => s.length > 0).length;
@@ -115,6 +134,7 @@ const serveHandler =
       },
     });
   };
+};
 
 export interface ServerOptions {
   /**
@@ -142,12 +162,18 @@ export interface ServerOptions {
    * @default 5000
    */
   maxDelay?: number;
+  /**
+   * Directory to log to
+   * @default ""
+   */
+  logDir?: string;
 }
 
 export const server = async (
   opts: ServerOptions = { port: 8080 },
 ): Promise<void> => {
-  await serve(serveHandler(opts), { port: opts.port });
+  const handler = await createServeHandler(opts);
+  await serve(handler, { port: opts.port });
 };
 
 if (import.meta.main) {

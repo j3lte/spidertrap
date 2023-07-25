@@ -1,7 +1,7 @@
 import { Command } from "./deps.ts";
 import { server } from "./mod.ts";
 
-export const VERSION = "0.1.1";
+export const VERSION = "0.2.0";
 
 if (import.meta.main) {
   await new Command()
@@ -37,14 +37,24 @@ if (import.meta.main) {
         default: 5000,
       },
     )
+    .option(
+      "-L, --log-dir <logDir:string>",
+      "Directory to log to. Default disabled.",
+      {
+        default: "",
+      },
+    )
     .action(
-      async ({ port, numberOfLinks, delay, maxDelay, accumulateDelay }) => {
+      async (
+        { port, numberOfLinks, delay, maxDelay, accumulateDelay, logDir },
+      ) => {
         await server({
           port,
           numberOfLinks,
           delay,
           maxDelay,
           accumulateDelay,
+          logDir,
         });
       },
     )

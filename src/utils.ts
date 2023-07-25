@@ -1,3 +1,5 @@
+import { Logger } from "../deps.ts";
+
 export const randomPathName = (): string => {
   const LENGTH_OF_LINKS = [3, 20];
   const CHAR_SPACE =
@@ -39,6 +41,31 @@ export const randomDate = (): string => {
   return randomDateFormatted;
 };
 
+export const dateLogFormat = (): string => {
+  // Apache common log format
+  const date = new Date();
+  const month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ][date.getMonth()];
+  const dateFormatted = `${date.getDate()}/${month}/${date.getFullYear()} ${
+    date.getHours() < 10 ? "0" + date.getHours() : date.getHours()
+  }:${date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()}:${
+    date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()
+  }`;
+  return dateFormatted;
+};
+
 export const wait = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -69,4 +96,15 @@ export const respondRobots = (length: number): Response => {
     status: 200,
     headers: { "Content-Type": "text/plain" },
   });
+};
+
+export const createLogger = async (dir?: string): Promise<Logger> => {
+  const logger = new Logger();
+
+  if (dir && dir.length > 0) {
+    await Deno.mkdir(dir, { recursive: true });
+    await logger.initFileLogger(dir, { rotate: true, maxBytes: 10 * 1024 });
+  }
+
+  return logger;
 };
