@@ -1,3 +1,5 @@
+// Copyright 2023 J.W. Lagendijk. All rights reserved. MIT license.
+
 import { stripColor } from "../dev_deps.ts";
 
 import { updateText } from "./utils.ts";

@@ -1,3 +1,5 @@
+// Copyright 2023 J.W. Lagendijk. All rights reserved. MIT license.
+
 async function update(args: string[]) {
   const version = args[0];
   if (!version) {

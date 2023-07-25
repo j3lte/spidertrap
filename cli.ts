@@ -1,3 +1,5 @@
+// Copyright 2023 J.W. Lagendijk. All rights reserved. MIT license.
+
 import { Command } from "./deps.ts";
 import { server } from "./mod.ts";
 

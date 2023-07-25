@@ -1,3 +1,5 @@
+// Copyright 2023 J.W. Lagendijk. All rights reserved. MIT license.
+
 import { serve } from "../deps.ts";
 import type { ConnInfo, Handler, Logger } from "../deps.ts";
 import type { ServerOptions } from "./types.ts";

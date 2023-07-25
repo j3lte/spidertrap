@@ -1,3 +1,5 @@
+// Copyright 2023 J.W. Lagendijk. All rights reserved. MIT license.
+
 import { Logger } from "../deps.ts";
 
 export const randomPathName = (): string => {
