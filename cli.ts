@@ -44,6 +44,10 @@ if (import.meta.main) {
         default: "",
       },
     )
+    .example(
+      "spidertrap --port 8000 --number-of-links 15 --delay 300 -a --max-delay 5000",
+      "Start a server on port 8000 with 15 links, a delay of 300ms that accumulates, and a maximum delay of 5000ms.",
+    )
     .action(
       async (
         { port, numberOfLinks, delay, maxDelay, accumulateDelay, logDir },

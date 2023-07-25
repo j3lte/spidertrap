@@ -3,7 +3,7 @@ import { Logger } from "../deps.ts";
 export const randomPathName = (): string => {
   const LENGTH_OF_LINKS = [3, 20];
   const CHAR_SPACE =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-/";
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-";
   const length =
     Math.floor(Math.random() * (LENGTH_OF_LINKS[1] - LENGTH_OF_LINKS[0] + 1)) +
     LENGTH_OF_LINKS[0];
