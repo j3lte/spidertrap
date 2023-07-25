@@ -9,6 +9,7 @@ Spidertrap is a simple web server that can be used to trap web crawlers. It is w
 
 - Runs a webserver that responds to all requests with a list of random links. It mimics an Apache directory index.
 - Adds a `robots.txt` file that baits certain crawlers to crawl random links
+- Add a `sitemap.xml` file that baits certain crawlers to crawl random links
 - Optionally add a delay to the response which can be accumulated based on the path segments (the further down the path, the longer the delay)
 
 ## Installation
@@ -49,7 +50,7 @@ await server({
 ```bash
 
 Usage:   spidertrap
-Version: 0.2.1     
+Version: 0.2.1
 
 Description:
 
@@ -57,14 +58,14 @@ Description:
 
 Options:
 
-  -h, --help                          - Show this help.                                                
-  -V, --version                       - Show the version number for this program.                      
-  -p, --port              <port>      - Port to listen on                              (Default: 8080) 
-  -l, --number-of-links   <links>     - Number of links to generate                    (Default: 5)    
-  -d, --delay             <delay>     - Delay in ms to wait before responding          (Default: 0)    
+  -h, --help                          - Show this help.
+  -V, --version                       - Show the version number for this program.
+  -p, --port              <port>      - Port to listen on                              (Default: 8080)
+  -l, --number-of-links   <links>     - Number of links to generate                    (Default: 5)
+  -d, --delay             <delay>     - Delay in ms to wait before responding          (Default: 0)
   -a, --accumulate-delay              - Accumulate delay based on path segments        (Default: false)
-  -m, --max-delay         <maxDelay>  - Maximum delay in ms to wait before responding  (Default: 5000) 
-  -L, --log-dir           <logDir>    - Directory to log to. Disabled by default       (Default: "")   
+  -m, --max-delay         <maxDelay>  - Maximum delay in ms to wait before responding  (Default: 5000)
+  -L, --log-dir           <logDir>    - Directory to log to. Disabled by default       (Default: "")
   -r, --disable-robots                - Disable robots.txt                             (Default: false)
 
 Examples:
@@ -78,7 +79,7 @@ Examples:
 
 ### Upcoming features
 
-- Add a `sitemap.xml` file that baits certain crawlers to crawl random links
+- Add a list of directory names as an input file
 
 ## License
 

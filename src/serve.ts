@@ -1,5 +1,7 @@
 import { serve } from "../deps.ts";
 import type { ConnInfo, Handler, Logger } from "../deps.ts";
+import type { ServerOptions } from "./types.ts";
+
 import {
   createLogger,
   dateLogFormat,
@@ -7,12 +9,20 @@ import {
   randomPathName,
   respondImage,
   respondRobots,
+  respondSitemap,
   wait,
 } from "./utils.ts";
 
 const createServeHandler = (
-  { numberOfLinks, delay, accumulateDelay, maxDelay, disableRobots }:
-    ServerOptions,
+  {
+    numberOfLinks,
+    delay,
+    accumulateDelay,
+    maxDelay,
+    sitemapLevels,
+    disableRobots,
+    disableSitemap,
+  }: ServerOptions,
   logger: Logger,
 ): Handler =>
 async (
@@ -34,6 +44,7 @@ async (
   if (
     [
       "/favicon.ico",
+      "/icons/back.gif",
       "/icons/blank.gif",
       "/icons/folder.gif",
       "/icons/generic.gif",
@@ -47,7 +58,12 @@ async (
 
   if (path.startsWith("/icons/")) {
     logger.info(`${requestString} 404 ${userAgent}`);
-    return new Response(null, { status: 404 });
+    return new Response(null, {
+      status: 404,
+      headers: {
+        "Server": "Apache",
+      },
+    });
   }
 
   if (path === "/robots.txt" && !disableRobots) {
@@ -55,10 +71,18 @@ async (
     return respondRobots(numberOfLinks ?? 5);
   }
 
+  if (path === "/sitemap.xml" && !disableSitemap) {
+    logger.info(`${requestString} 200 ${userAgent}`);
+    return respondSitemap(numberOfLinks ?? 5, sitemapLevels ?? 3);
+  }
+
   if (!path.endsWith("/")) {
     logger.info(`${requestString} 404 ${userAgent}`);
     return new Response(null, {
       status: 404,
+      headers: {
+        "Server": "Apache",
+      },
     });
   }
 
@@ -94,7 +118,7 @@ async (
     (pathSegmentsLength > 0)
       ? `
             <tr>
-              <td valign="top"><img src="/icons/blank.gif" alt="[PARENTDIR]"></td><td><a href="../">Parent Directory</a>       </td><td align="right">  - </td><td align="right">  - </td><td>&nbsp;</td>
+              <td valign="top"><img src="/icons/back.gif" alt="[PARENTDIR]"></td><td><a href="../">Parent Directory</a>       </td><td align="right">  - </td><td align="right">  - </td><td>&nbsp;</td>
             </tr>
           `
       : ""
@@ -104,7 +128,16 @@ async (
     (pathSegmentsLength === 0 && !disableRobots)
       ? `
       <tr>
-        <td valign="top"><img src="/icons/generic.gif" alt="[File]"></td><td><a href="/robots.txt">robots.txt</a>       </td><td align="right">  - </td><td align="right">  - </td><td>&nbsp;</td>
+        <td valign="top"><img src="/icons/generic.gif" alt="[FILE]"></td><td><a href="/robots.txt">robots.txt</a>       </td><td align="right">  - </td><td align="right">  - </td><td>&nbsp;</td>
+      </tr>
+    `
+      : ""
+  }
+          ${
+    (pathSegmentsLength === 0 && !disableSitemap)
+      ? `
+      <tr>
+        <td valign="top"><img src="/icons/generic.gif" alt="[FILE]"></td><td><a href="/sitemap.xml">sitemap.xml</a>       </td><td align="right">  - </td><td align="right">  - </td><td>&nbsp;</td>
       </tr>
     `
       : ""
@@ -129,47 +162,10 @@ async (
     headers: {
       "Content-Type": "text/html",
       "Cache-Control": "public, max-age=31536000",
+      "Server": "Apache",
     },
   });
 };
-
-export interface ServerOptions {
-  /**
-   * Number of links to generate
-   * @default 5
-   */
-  numberOfLinks?: number;
-  /**
-   * Port to listen on
-   * @default 8080
-   */
-  port?: number;
-  /**
-   * Delay in ms to wait before responding
-   * @default 0
-   */
-  delay?: number;
-  /**
-   * Accumulate delay based on path segments
-   * @default false
-   */
-  accumulateDelay?: boolean;
-  /**
-   * Maximum delay in ms to wait before responding
-   * @default 5000
-   */
-  maxDelay?: number;
-  /**
-   * Directory to log to
-   * @default ""
-   */
-  logDir?: string;
-  /**
-   * Disable robots.txt
-   * @default false
-   */
-  disableRobots?: boolean;
-}
 
 export const server = async (
   opts: ServerOptions = { port: 8080 },

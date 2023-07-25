@@ -51,32 +51,27 @@ if (import.meta.main) {
         default: false,
       },
     )
+    .option(
+      "-x, --disable-sitemap",
+      "Disable sitemap.xml",
+      {
+        default: false,
+      },
+    )
+    .option(
+      "-s, --sitemap-levels <sitemapLevels:number>",
+      "Sitemap levels",
+      {
+        default: 3,
+      },
+    )
     .example(
       "spidertrap --port 8000 --number-of-links 15 --delay 300 -a --max-delay 5000",
       "Start a server on port 8000 with 15 links, a delay of 300ms that accumulates, and a maximum delay of 5000ms.",
     )
     .action(
-      async (
-        {
-          port,
-          numberOfLinks,
-          delay,
-          maxDelay,
-          accumulateDelay,
-          logDir,
-          disableRobots,
-        },
-      ) => {
-        console.log(disableRobots);
-        await server({
-          port,
-          numberOfLinks,
-          delay,
-          maxDelay,
-          accumulateDelay,
-          logDir,
-          disableRobots,
-        });
+      async (opts) => {
+        await server(opts);
       },
     )
     .parse();

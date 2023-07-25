@@ -81,6 +81,7 @@ export const respondImage = async (path: string): Promise<Response> => {
     headers: {
       "Content-Type": contentType,
       "Cache-Control": "public, max-age=31536000",
+      "Server": "Apache",
     },
   });
 };
@@ -94,8 +95,38 @@ export const respondRobots = (length: number): Response => {
   ).join("\n");
   return new Response(`User-agent: *\n\n${randomDisallow}`, {
     status: 200,
-    headers: { "Content-Type": "text/plain" },
+    headers: { "Content-Type": "text/plain", "Server": "Apache" },
   });
+};
+
+// Generate an array of random path names, that starts with a random path name and goes up to the specified levels
+const generateRandomPathNames = (level: number, count: number): string[] => {
+  const randomPathNames = [];
+  for (let i = 0; i < count; i++) {
+    const pathName = randomPathName();
+    randomPathNames.push(pathName);
+    if (level > 1) {
+      const subPathNames = generateRandomPathNames(level - 1, count);
+      for (const subPathName of subPathNames) {
+        randomPathNames.push(`${pathName}/${subPathName}`);
+      }
+    }
+  }
+  return randomPathNames;
+};
+
+export const respondSitemap = (length: number, levels: number): Response => {
+  const randomPathNames = generateRandomPathNames(levels, length);
+  const randomSitemap = randomPathNames.map(
+    (pathName) => `<url><loc>/${pathName}/</loc></url>`,
+  ).join("\n");
+  return new Response(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${randomSitemap}\n</urlset>`,
+    {
+      status: 200,
+      headers: { "Content-Type": "application/xml", "Server": "Apache" },
+    },
+  );
 };
 
 export const createLogger = async (dir?: string): Promise<Logger> => {
