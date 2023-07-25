@@ -3,7 +3,7 @@ Spidertrap
 
 Spidertrap is a simple web server that can be used to trap web crawlers. It is written in Typescript and runs on Deno. You can use it standalone or as a library.
 
-<center><img src="./img.png" width="50%" /></center>
+<div align="center"><img src="./img.png" width="50%" /></div>
 
 ## Features
 
