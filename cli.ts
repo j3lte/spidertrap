@@ -1,7 +1,7 @@
 import { Command } from "./deps.ts";
 import { server } from "./mod.ts";
 
-export const VERSION = "0.2.1";
+export const VERSION = "0.3.0";
 
 if (import.meta.main) {
   await new Command()
@@ -66,7 +66,7 @@ if (import.meta.main) {
       },
     )
     .example(
-      "spidertrap --port 8000 --number-of-links 15 --delay 300 -a --max-delay 5000",
+      "> spidertrap --port 8000 --number-of-links 15 --delay 300 -a --max-delay 5000",
       "Start a server on port 8000 with 15 links, a delay of 300ms that accumulates, and a maximum delay of 5000ms.",
     )
     .action(

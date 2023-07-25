@@ -19,7 +19,7 @@ Spidertrap is a simple web server that can be used to trap web crawlers. It is w
 You can install Spidertrap as a standalone application using the following command:
 
 ```bash
-deno install --allow-net --allow-read --allow-write -n spidertrap https://deno.land/x/spidertrap@0.2.1/cli.ts
+deno install --allow-net --allow-read --allow-write -n spidertrap https://deno.land/x/spidertrap@0.3.0/cli.ts
 ```
 
 > Note: You will only need the `allow-write` permission if you want to enable file logging, otherwise you can skip it.
@@ -29,7 +29,7 @@ deno install --allow-net --allow-read --allow-write -n spidertrap https://deno.l
 You can also use Spidertrap as a library. To do so, add the following to your `deps.ts` file:
 
 ```typescript
-import { server } from "https://deno.land/x/spidertrap@0.2.1/mod.ts";
+import { server } from "https://deno.land/x/spidertrap@0.3.0/mod.ts";
 
 // Start the server
 await server({
@@ -50,7 +50,7 @@ await server({
 ```bash
 
 Usage:   spidertrap
-Version: 0.2.1
+Version: 0.3.0     
 
 Description:
 
@@ -58,19 +58,21 @@ Description:
 
 Options:
 
-  -h, --help                          - Show this help.
-  -V, --version                       - Show the version number for this program.
-  -p, --port              <port>      - Port to listen on                              (Default: 8080)
-  -l, --number-of-links   <links>     - Number of links to generate                    (Default: 5)
-  -d, --delay             <delay>     - Delay in ms to wait before responding          (Default: 0)
-  -a, --accumulate-delay              - Accumulate delay based on path segments        (Default: false)
-  -m, --max-delay         <maxDelay>  - Maximum delay in ms to wait before responding  (Default: 5000)
-  -L, --log-dir           <logDir>    - Directory to log to. Disabled by default       (Default: "")
-  -r, --disable-robots                - Disable robots.txt                             (Default: false)
+  -h, --help                               - Show this help.                                                
+  -V, --version                            - Show the version number for this program.                      
+  -p, --port              <port>           - Port to listen on                              (Default: 8080) 
+  -l, --number-of-links   <links>          - Number of links to generate                    (Default: 5)    
+  -d, --delay             <delay>          - Delay in ms to wait before responding          (Default: 0)    
+  -a, --accumulate-delay                   - Accumulate delay based on path segments        (Default: false)
+  -m, --max-delay         <maxDelay>       - Maximum delay in ms to wait before responding  (Default: 5000) 
+  -L, --log-dir           <logDir>         - Directory to log to. Disabled by default       (Default: "")   
+  -r, --disable-robots                     - Disable robots.txt                             (Default: false)
+  -x, --disable-sitemap                    - Disable sitemap.xml                            (Default: false)
+  -s, --sitemap-levels    <sitemapLevels>  - Sitemap levels                                 (Default: 3)    
 
 Examples:
 
-  Spidertrap --port 8000 --number-of-links 15 --delay 300 -a --max-delay 5000: Start a server on port 8000 with 15 links, a delay of 300ms that accumulates, and a maximum delay of 5000ms.
+  > spidertrap --port 8000 --number-of-links 15 --delay 300 -a --max-delay 5000: Start a server on port 8000 with 15 links, a delay of 300ms that accumulates, and a maximum delay of 5000ms.
 
 ```
 <!-- END SNIPPET -->
