@@ -49,7 +49,7 @@ await server({
 ```bash
 
 Usage:   spidertrap
-Version: 0.2.1
+Version: 0.2.1     
 
 Description:
 
@@ -57,14 +57,19 @@ Description:
 
 Options:
 
-  -h, --help                          - Show this help.
-  -V, --version                       - Show the version number for this program.
-  -p, --port              <port>      - Port to listen on.                              (Default: 8080)
-  -l, --number-of-links   <links>     - Number of links to generate.                    (Default: 5)
-  -d, --delay             <delay>     - Delay in ms to wait before responding.          (Default: 0)
-  -a, --accumulate-delay              - Accumulate delay based on path segments.        (Default: false)
-  -m, --max-delay         <maxDelay>  - Maximum delay in ms to wait before responding.  (Default: 5000)
-  -L, --log-dir           <logDir>    - Directory to log to. Default disabled.          (Default: "")
+  -h, --help                          - Show this help.                                                
+  -V, --version                       - Show the version number for this program.                      
+  -p, --port              <port>      - Port to listen on                              (Default: 8080) 
+  -l, --number-of-links   <links>     - Number of links to generate                    (Default: 5)    
+  -d, --delay             <delay>     - Delay in ms to wait before responding          (Default: 0)    
+  -a, --accumulate-delay              - Accumulate delay based on path segments        (Default: false)
+  -m, --max-delay         <maxDelay>  - Maximum delay in ms to wait before responding  (Default: 5000) 
+  -L, --log-dir           <logDir>    - Directory to log to. Disabled by default       (Default: "")   
+  -r, --disable-robots                - Disable robots.txt                             (Default: false)
+
+Examples:
+
+  Spidertrap --port 8000 --number-of-links 15 --delay 300 -a --max-delay 5000: Start a server on port 8000 with 15 links, a delay of 300ms that accumulates, and a maximum delay of 5000ms.
 
 ```
 <!-- END SNIPPET -->

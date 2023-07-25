@@ -11,7 +11,8 @@ import {
 } from "./utils.ts";
 
 const createServeHandler = (
-  { numberOfLinks, delay, accumulateDelay, maxDelay }: ServerOptions,
+  { numberOfLinks, delay, accumulateDelay, maxDelay, disableRobots }:
+    ServerOptions,
   logger: Logger,
 ): Handler =>
 async (
@@ -49,7 +50,7 @@ async (
     return new Response(null, { status: 404 });
   }
 
-  if (path === "/robots.txt") {
+  if (path === "/robots.txt" && !disableRobots) {
     logger.info(`${requestString} 200 ${userAgent}`);
     return respondRobots(numberOfLinks ?? 5);
   }
@@ -100,7 +101,7 @@ async (
   }
           ${randomLinks.join("")}
           ${
-    (pathSegmentsLength === 0)
+    (pathSegmentsLength === 0 && !disableRobots)
       ? `
       <tr>
         <td valign="top"><img src="/icons/generic.gif" alt="[File]"></td><td><a href="/robots.txt">robots.txt</a>       </td><td align="right">  - </td><td align="right">  - </td><td>&nbsp;</td>
@@ -163,6 +164,11 @@ export interface ServerOptions {
    * @default ""
    */
   logDir?: string;
+  /**
+   * Disable robots.txt
+   * @default false
+   */
+  disableRobots?: boolean;
 }
 
 export const server = async (

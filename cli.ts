@@ -8,40 +8,47 @@ if (import.meta.main) {
     .name("spidertrap")
     .description("A simple web server that traps web crawlers.")
     .version(VERSION)
-    .option("-p, --port <port:number>", "Port to listen on.", { default: 8080 })
+    .option("-p, --port <port:number>", "Port to listen on", { default: 8080 })
     .option(
       "-l, --number-of-links <links:number>",
-      "Number of links to generate.",
+      "Number of links to generate",
       {
         default: 5,
       },
     )
     .option(
       "-d, --delay <delay:number>",
-      "Delay in ms to wait before responding.",
+      "Delay in ms to wait before responding",
       {
         default: 0,
       },
     )
     .option(
       "-a, --accumulate-delay",
-      "Accumulate delay based on path segments.",
+      "Accumulate delay based on path segments",
       {
         default: false,
       },
     )
     .option(
       "-m, --max-delay <maxDelay:number>",
-      "Maximum delay in ms to wait before responding.",
+      "Maximum delay in ms to wait before responding",
       {
         default: 5000,
       },
     )
     .option(
       "-L, --log-dir <logDir:string>",
-      "Directory to log to. Default disabled.",
+      "Directory to log to. Disabled by default",
       {
         default: "",
+      },
+    )
+    .option(
+      "-r, --disable-robots",
+      "Disable robots.txt",
+      {
+        default: false,
       },
     )
     .example(
@@ -50,8 +57,17 @@ if (import.meta.main) {
     )
     .action(
       async (
-        { port, numberOfLinks, delay, maxDelay, accumulateDelay, logDir },
+        {
+          port,
+          numberOfLinks,
+          delay,
+          maxDelay,
+          accumulateDelay,
+          logDir,
+          disableRobots,
+        },
       ) => {
+        console.log(disableRobots);
         await server({
           port,
           numberOfLinks,
@@ -59,6 +75,7 @@ if (import.meta.main) {
           maxDelay,
           accumulateDelay,
           logDir,
+          disableRobots,
         });
       },
     )
