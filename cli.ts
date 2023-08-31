@@ -1,6 +1,6 @@
 // Copyright 2023 J.W. Lagendijk. All rights reserved. MIT license.
 
-import { Command } from "./deps.ts";
+import { Command, GithubProvider, UpgradeCommand } from "./deps.ts";
 import { server } from "./mod.ts";
 
 export const VERSION = "0.3.0";
@@ -75,6 +75,22 @@ if (import.meta.main) {
       async (opts) => {
         await server(opts);
       },
+    )
+    .command(
+      "upgrade",
+      new UpgradeCommand({
+        main: "cli.ts",
+        args: [
+          "--allow-net",
+          "--allow-read",
+          "--allow-write",
+        ],
+        provider: [
+          new GithubProvider({
+            repository: "j3lte/spidertrap",
+          }),
+        ],
+      }),
     )
     .parse();
 }

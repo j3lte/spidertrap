@@ -1,0 +1,62 @@
+name: Release new version (On Demand)
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (x.y.z):"
+        required: true
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release new version (On Demand)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.36.3
+
+      - name: Run Update Version
+        run: deno task update:version ${{ github.event.inputs.version }}
+
+      - name: Run Update Readme
+        run: deno task update:readme
+
+      - name: Commit changes
+        id: auto-commit-action
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update Version (On Demand)
+          commit_options: '--no-verify'
+          tagging_message: ${{ github.event.inputs.version }}
+
+      - name: Run cross-compile
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        run:
+          ./cross_compile.sh
+
+      - name: Release Notes
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        run:
+          git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges > ".github/RELEASE-TEMPLATE.md"
+
+      - name: Release with Notes
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: ".github/RELEASE-TEMPLATE.md"
+          files: |
+            x86_64-unknown-linux-gnu-spidertrap
+            aarch64-apple-darwin-spidertrap
+            x86_64-apple-darwin-spidertrap
+            x86_64-pc-windows-msvc-spidertrap.exe
+          tag_name: ${{ github.event.inputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
