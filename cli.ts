@@ -3,7 +3,7 @@
 import { Command, GithubProvider, UpgradeCommand } from "./deps.ts";
 import { server } from "./mod.ts";
 
-export const VERSION = "0.3.0";
+export const VERSION = "0.4.0";
 
 if (import.meta.main) {
   await new Command()
